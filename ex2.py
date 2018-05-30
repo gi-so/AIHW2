@@ -3,6 +3,21 @@ import random
 
 ids = ["935885178", "203609177"]
 
+def neighbors_value_sum(state, row, col):
+    count=0
+    if state[row][col] == 11:
+        count += 1
+    if state[row+1][col] == 11:
+        count += 1
+    if state[row][col+1] == 11:
+        count += 1
+    if state[row-1][col] == 11:
+        count += 1
+    if state[row][col-1] == 11:
+        count += 1
+    return count
+
+
 
 def count_dots(state):
     sum = 0
@@ -43,9 +58,8 @@ class PacmanController:
         allowed_lst = []
         packman_row, packman_col = find_pacman(state)
         allowed_field = (10,11)
-        print(find_pacman(state))
-        if packman_row == None:
-            return "reset"
+        
+
 
         if state[packman_row + 1][packman_col] in allowed_field:
             allowed_lst.append("D")
@@ -69,5 +83,23 @@ class PacmanController:
         allowed_lst = self.actions(state)
         if not allowed_lst:
             return "reset"
-        action = random.choice(allowed_lst)
+        pacman_row, pacman_col = find_pacman(state)
+        value = 0
+        action = None
+        for act in allowed_lst:
+            if act == "R":
+                tmp_value = neighbors_value_sum(state,pacman_row,pacman_col+1)
+
+            if act == "D":
+                tmp_value = neighbors_value_sum(state, pacman_row + 1, pacman_col)
+
+            if act == "L":
+                tmp_value = neighbors_value_sum(state, pacman_row, pacman_col - 1)
+
+            if act == "U":
+                tmp_value = neighbors_value_sum(state, pacman_row - 1, pacman_col)
+            if tmp_value>=value:
+                value = tmp_value
+                action = act
+        #action = random.choice(allowed_lst)
         return action
