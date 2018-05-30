@@ -5,6 +5,7 @@ ids = ["935885178", "203609177"]
 
 def neighbors_value_sum(state, row, col):
     count=0
+    ghost_count=0
     if state[row][col] == 11:
         count += 1
     if state[row+1][col] == 11:
@@ -15,7 +16,16 @@ def neighbors_value_sum(state, row, col):
         count += 1
     if state[row][col-1] == 11:
         count += 1
-    return count
+    if state[row + 1][col] in (51, 50, 41, 40, 31, 30, 21, 20):
+        ghost_count += 1
+    if state[row][col + 1] in (51, 50, 41, 40, 31, 30, 21, 20):
+        ghost_count += 1
+    if state[row - 1][col] in (51, 50, 41, 40, 31, 30, 21, 20):
+        ghost_count += 1
+    if state[row][col - 1] in (51, 50, 41, 40, 31, 30, 21, 20):
+        ghost_count += 1
+    ghost_factor=(9/10)**ghost_count
+    return count * ghost_factor
 
 
 
@@ -58,7 +68,7 @@ class PacmanController:
         allowed_lst = []
         packman_row, packman_col = find_pacman(state)
         allowed_field = (10,11)
-        
+
 
 
         if state[packman_row + 1][packman_col] in allowed_field:
@@ -88,7 +98,7 @@ class PacmanController:
         action = None
         for act in allowed_lst:
             if act == "R":
-                tmp_value = neighbors_value_sum(state,pacman_row,pacman_col+1)
+                tmp_value = neighbors_value_sum(state,pacman_row,pacman_col + 1)
 
             if act == "D":
                 tmp_value = neighbors_value_sum(state, pacman_row + 1, pacman_col)
