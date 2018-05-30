@@ -66,7 +66,8 @@ class PacmanController:
         # print('COMPLETE choose_next_action')
 
         allowed_lst = []
-        allowed_lst = self.actions(self.state)
+        allowed_lst = self.actions(state)
+        if not allowed_lst:
+            return "reset"
         action = random.choice(allowed_lst)
-        print(action)
         return action
