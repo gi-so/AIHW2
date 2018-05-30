@@ -8,17 +8,16 @@ def count_dots(state):
     sum = 0
     for row in state:
         for col in row:
-            if state[row][col] == (11 or 71 or 51 or 41 or 31 or 21):
+            if state[state.index(row)][row.index(col)] == (11 or 71 or 51 or 41 or 31 or 21):
                 sum = sum + 1
     return sum
 
 def find_pacman(state):
     p_row = 0
     p_col = 0
-    sum = 0
     for row in state:
         for col in row:
-            if state[row][col] == 66:
+            if state[state.index(row)][row.index(col)] == 66:
                 p_row = row
                 p_col = col
     return p_row, p_col
@@ -42,10 +41,9 @@ class PacmanController:
         many actions, consider yielding them one at a time in an
         iterator, rather than building them all at once."""
         allowed_lst = []
-        packman_row, packman_col = self.find_row_col(state, 66)
-        if packman_row == None:
-            return tuple(allowed_lst)
-        allowed_field = (10, 11)
+        packman_row, packman_col = find_pacman(state)
+        allowed_field = (10,11)
+
         if state[packman_row + 1][packman_col] in allowed_field:
             allowed_lst.append("D")
         if state[packman_row - 1][packman_col] in allowed_field:
@@ -64,24 +62,6 @@ class PacmanController:
         This method MUST terminate within the specified timeout."""
         # print('COMPLETE choose_next_action')
 
-        dots = count_dots(state)
-        r0 = self.dot_sum - dots
-        discount = 0.9
-        actions = ["R","D","L","U"]
-        policy = {}
-
-        for i in actions:
-            tmp_steps = 1
-            v = []
-            v.append(r0)
-            while tmp_steps <= self.steps:
-                r_action = v[tmp_steps - 1] + discount *
-                v[tmp_steps] = v[tmp_steps - 1] + max()
-                tmp_steps = tmp_steps + 1
-
-
-
-
-
-
-
+        allowed_lst = []
+        allowed_lst = self.actions(self.state)
+        return random.choice(allowed_lst)
