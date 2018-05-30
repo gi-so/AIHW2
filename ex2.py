@@ -18,8 +18,8 @@ def find_pacman(state):
     for row in state:
         for col in row:
             if state[state.index(row)][row.index(col)] == 66:
-                p_row = row
-                p_col = col
+                p_row = state.index(row)
+                p_col = row.index(col)
     return p_row, p_col
 
 class PacmanController:
@@ -43,6 +43,9 @@ class PacmanController:
         allowed_lst = []
         packman_row, packman_col = find_pacman(state)
         allowed_field = (10,11)
+        print(find_pacman(state))
+        if packman_row == None:
+            return "reset"
 
         if state[packman_row + 1][packman_col] in allowed_field:
             allowed_lst.append("D")
@@ -64,4 +67,6 @@ class PacmanController:
 
         allowed_lst = []
         allowed_lst = self.actions(self.state)
-        return random.choice(allowed_lst)
+        action = random.choice(allowed_lst)
+        print(action)
+        return action
