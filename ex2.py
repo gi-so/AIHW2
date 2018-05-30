@@ -35,6 +35,29 @@ class PacmanController:
         self.dot_sum = count_dots(state)
         self.pacman_row, self.pacman_col = find_pacman(state)
 
+
+    def actions(self, state):
+        """Return the actions that can be executed in the given
+        state. The result would typically be a tuple, but if there are
+        many actions, consider yielding them one at a time in an
+        iterator, rather than building them all at once."""
+        allowed_lst = []
+        packman_row, packman_col = self.find_row_col(state, 66)
+        if packman_row == None:
+            return tuple(allowed_lst)
+        allowed_field = (10, 11)
+        if state[packman_row + 1][packman_col] in allowed_field:
+            allowed_lst.append("D")
+        if state[packman_row - 1][packman_col] in allowed_field:
+            allowed_lst.append("U")
+        if state[packman_row][packman_col + 1] in allowed_field:
+            allowed_lst.append("R")
+        if state[packman_row][packman_col - 1] in allowed_field:
+            allowed_lst.append("L")
+
+        return tuple(allowed_lst)
+
+
     def choose_next_action(self, state):
         """Choose next action for pacman controller given the current state.
         Action should be returned in the format described previous parts of the project.
