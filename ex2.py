@@ -24,8 +24,8 @@ def neighbors_value_sum(state, row, col):
         ghost_count += 1
     if state[row][col - 1] in (51, 50, 41, 40, 31, 30, 21, 20):
         ghost_count += 1
-    ghost_factor=(9/10)**ghost_count
-    return (count * ghost_factor)
+    ghost_factor=100*ghost_count
+    return (count - ghost_factor)
 
 
 
@@ -94,7 +94,7 @@ class PacmanController:
         if not allowed_lst:
             return "reset"
         pacman_row, pacman_col = find_pacman(state)
-        value = 0
+        value = -100
         action = None
         for act in allowed_lst:
             if act == "R":
